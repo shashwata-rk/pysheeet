@@ -1,11 +1,15 @@
-"""This is a simple cheatsheet webapp."""
+# -*- coding: utf-8 -*-
+"""
+This is a simple cheatsheet webapp.
+"""
 
 import os
-
 from flask import Flask, abort, send_from_directory, render_template
 from flask_sslify import SSLify
 from flask_seasurf import SeaSurf
 from flask_talisman import Talisman
+from werkzeug.exceptions import NotFound
+from werkzeug.utils import safe_join
 
 DIR = os.path.dirname(os.path.realpath(__file__))
 ROOT = os.path.join(DIR, "docs", "_build", "html")
@@ -71,9 +75,13 @@ def page_not_found(e):
 
 @app.route("/<path:path>")
 def static_proxy(path):
-    """Find static files."""
-    return send_from_directory(ROOT, path)
-
+    """Find static files safely."""
+    try:
+        safe_path = safe_join(ROOT, path)
+        return send_from_directory(ROOT, safe_path)
+    except (FileNotFoundError, IsADirectoryError):
+        # Handle file not found or directory errors
+        return render_template("404.html"), 404
 
 @app.route("/")
 def index_redirection():
@@ -92,4 +100,5 @@ def acme(token):
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    # Only run the app in debug mode during development
+    app.run(debug=os.environ.get("FLASK_ENV") == "development")
