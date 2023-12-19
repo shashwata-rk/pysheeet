@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-This is a simple cheatsheet webapp.
-"""
+"""This is a simple cheatsheet webapp."""
 
 import os
 from flask import Flask, abort, send_from_directory, render_template
@@ -77,11 +75,11 @@ def page_not_found(e):
 def static_proxy(path):
     """Find static files safely."""
     try:
-        safe_path = safe_join(ROOT, path)
-        return send_from_directory(ROOT, safe_path)
-    except (FileNotFoundError, IsADirectoryError):
+        return send_from_directory(ROOT, path)
+    except NotFound:
         # Handle file not found or directory errors
         return render_template("404.html"), 404
+
 
 @app.route("/")
 def index_redirection():

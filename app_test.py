@@ -138,6 +138,10 @@ class PysheeetTest(LiveServerTestCase):
             self.assertEqual(resp.status_code, 200)
             resp.close()
 
+        u = "notes/../conf.py"
+        _, code = static_proxy(u)
+        self.assertEqual(code, 404)
+
     def test_page_not_found(self):
         """Test page not found."""
         html, status_code = page_not_found(None)
