@@ -65,7 +65,6 @@ Advanced Cheat Sheet
 - `Sqlalchemy <docs/notes/python-sqlalchemy.rst>`_
 - `Security <docs/notes/python-security.rst>`_
 - `SSH <docs/notes/python-ssh.rst>`_
-- `Boto3 <docs/notes/python-aws.rst>`_
 - `Tests <docs/notes/python-tests.rst>`_
 - `C Extensions <docs/notes/python-c-extensions.rst>`_
 
